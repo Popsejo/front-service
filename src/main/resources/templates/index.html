@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Students Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#" th:href="@{/}">Students of Belgium</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li sec:authorize="isAuthenticated()" class="nav-item active">
+                <form th:action="@{/logout}" method="post">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log out <span class="sr-only">(current)</span></button>
+                </form>
+            </li>
+        </ul>
+        <ul class="navbar-nav float-right">
+            <li sec:authorize="isAnonymous()" class="nav-item active">
+                <a class="nav-link" href="#" th:href="@{/login}">Login <span class="sr-only">(current)</span></a>
+            </li>
+            <li sec:authorize="isAuthenticated()" class="nav-item active">
+                <a class="nav-link" href="#" sec:authentication="name">Login <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<br>
+<div class="container">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#id</th>
+            <th scope="col">Naam</th>
+            <th scope="col">Study</th>
+            <th scope="col">School</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student,iter : ${students}">
+            <th scope="row" th:text="${student.getId()}">1</th>
+            <td th:text="${student.getName()}">Mark</td>
+            <td th:text="${student.getStudy()}">Otto</td>
+            <td th:text="${student.getSchool().getName()}">@mdo</td>
+            <td><a class="btn btn-success" th:href="@{'/edit/'+ ${student.getId()}}">Edit</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
