@@ -37,4 +37,14 @@ public class HomeController {
         return "edit";
 
     }
+
+    @GetMapping("/hello")
+    public String helloConference() {
+        try {
+            return studentService.getHello();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "getHello() mislukt!";
+        }
+    }
 }

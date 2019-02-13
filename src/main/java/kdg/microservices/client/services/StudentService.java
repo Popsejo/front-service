@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kdg.microservices.client.model.Student;
 import kdg.microservices.client.model.Token;
+import kdg.microservices.client.model.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,15 @@ import java.util.List;
 
 @Service
 public class StudentService {
+    public String getHello() throws IOException {
+        String helloString = "http://localhost:8082/helloservice/hello";
+        String result = getResult(helloString);
+
+        return result;
+    }
+
     public List<Student> getStudents() throws IOException {
-        String studentString = "http://localhost:9000/";
+        String studentString = "http://localhost:8082/studentservice/";
         String result = getResult(studentString);
 
         ObjectMapper mapper = new ObjectMapper();
@@ -33,7 +41,7 @@ public class StudentService {
 
     public Student getStudent(int id, String accessToken) throws IOException {
         //can only be called by ADMIN (docent)
-        String studentString = "http://localhost:9000/student/" + id;
+        String studentString = "http://localhost:8082/studentservice/student/" + id;
         String result = getResultS(studentString,accessToken);
         ObjectMapper mapper = new ObjectMapper();
         Student student = mapper.readValue(result, Student.class);
@@ -75,14 +83,14 @@ public class StudentService {
         return content.toString();
     }
 
-    public Cookie postResult() throws IOException {
+    public Cookie postResult(User user) throws IOException {
         String clientId = "clientapp";
         String secret = "thisissecret";
         String scope = "webclient";
         String grantType = "password";
         String clientCredentials = clientId + ":" + secret;
         try {
-            URL url = new URL("http://localhost:8999/oauth/token?grant_type=password&username=docent&password=password&scope=webclient");
+            URL url = new URL("http://localhost:8082/authservice/oauth/token?grant_type=password&username=" + user.getUsername() + "&password="+ user.getPassword() + "&scope=webclient");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
             String basicAuth = "Basic " + new String(Base64.getEncoder().encode(clientCredentials.getBytes()));

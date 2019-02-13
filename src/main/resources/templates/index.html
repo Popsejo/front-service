@@ -19,18 +19,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li sec:authorize="isAuthenticated()" class="nav-item active">
-                <form th:action="@{/logout}" method="post">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log out <span class="sr-only">(current)</span></button>
+                <form th:action="@{/login}" method="get">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log in <span class="sr-only">(current)</span></button>
                 </form>
             </li>
         </ul>
         <ul class="navbar-nav float-right">
-            <li sec:authorize="isAnonymous()" class="nav-item active">
-                <a class="nav-link" href="#" th:href="@{/login}">Login <span class="sr-only">(current)</span></a>
-            </li>
-            <li sec:authorize="isAuthenticated()" class="nav-item active">
-                <a class="nav-link" href="#" sec:authentication="name">Login <span class="sr-only">(current)</span></a>
-            </li>
+
         </ul>
     </div>
 </nav>

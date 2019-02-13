@@ -32,7 +32,7 @@ public class LoginController {
     @PostMapping("/login")
     public String goToLoginFom(User user, HttpServletResponse response) {
         try {
-            Cookie cookie = studentService.postResult();
+            Cookie cookie = studentService.postResult(user);
             response.addCookie(cookie);
         } catch (IOException e) {
             e.printStackTrace();

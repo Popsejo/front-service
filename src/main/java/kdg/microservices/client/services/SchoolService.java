@@ -18,7 +18,7 @@ public class SchoolService {
 
 
     public List<School> getSchools() throws IOException {
-        String schoolPad = "http://localhost:9500/";
+        String schoolPad = "http://localhost:8082/schoolservice/";
         String result = studentService.getResult(schoolPad);
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(result, new TypeReference<List<School>>() {
